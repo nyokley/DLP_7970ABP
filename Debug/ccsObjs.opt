@@ -1,0 +1,1 @@
+"./main.obj" "./mcu.obj" "./spi.obj" "./timer.obj" "./trf7970.obj" "../lnk_msp430fr5994.cmd" -llibmpu_init.a -llibmath.a -llibc.a 
