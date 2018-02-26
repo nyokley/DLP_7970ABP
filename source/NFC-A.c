@@ -13,7 +13,7 @@
 
 //performs initial rf collision
 //returns true if no collision, false if collision
-bool collision_initial() {
+_Bool collision_initial() {
     uint8_t rssi_level;
 
     //write 0x02 to 0x00 to enable receiver and set in 3v mode
@@ -35,6 +35,86 @@ bool collision_initial() {
     if(rssi_level > 0) return false;
     else if(rssi_level == 0) return true;
 
+
+}
+
+
+//resets iso registers for active initiator / target, and allows it
+//to listen for other device
+void reset_after_command() {
+    //Turn off field by writing 0x21 to 0x01
+    SPI_writeSingle(0x21, 0x01);
+
+    //write 0x30 to 0x0A - band pass settings to RX special setting register
+    SPI_writeSingle(0x30, 0x0A);
+
+    //write 0x0F to 0x14 - FIFO IRQ Levels settings
+    SPI_writeSingle(0x0F, 0x14);
+}
+
+
+void initiator_sendPacket(uint8_t[] bytes, int len) {
+    //delay time specified in technology spec (56us to 188us)
+    uint8_t len_byte1;
+    uint8_t len_byte2;
+    delay_us(150);
+
+    //write to ISO control register - ISO1443A @ 106kbps, with CRC
+    SPI_writeSingle(0x08, 0x01);
+
+    delay_us(1000);
+
+    //send packet:
+
+    //reset fifo
+    SPI_directCommand(0x0F);
+
+    //transmission with (0x11) or without (0x10) CRC
+    SPI_directCommand(0x11);
+
+    //TX length bytes - assuming all complete
+    len_byte2 = ((uint8_t)len) << 4;
+    len_byte1 = (uint8_t) (len>>4);
+    SPI_writeSingle(len_byte1, 0x1D);       //write tx length byte 1
+    SPI_writeSingle(len_byte2, 0x1E);       //write tx length byte 2
+
+    //write command to fifo
+    SPI_writeContinuous(bytes, 0x1F);
+
+    //reset after transmission
+    reset_after_command();
+}
+
+void target_sendPacket(uint8_t[] bytes, int len) {
+    //delay time specified in technology spec (56us to 188us)
+    uint8_t len_byte1;
+    uint8_t len_byte2;
+    delay_us(150);
+
+    //write to ISO control register - ISO1443A @ 106kbps, with CRC
+    SPI_writeSingle(0x08, 0x01);
+
+    delay_us(1000);
+
+    //send packet:
+
+    //reset fifo
+    SPI_directCommand(0x0F);
+
+    //transmission with (0x11) or without (0x10) CRC
+    SPI_directCommand(0x11);
+
+    //TX length bytes - assuming all complete
+    len_byte2 = ((uint8_t)len) << 4;
+    len_byte1 = (uint8_t) (len>>4);
+    SPI_writeSingle(len_byte1, 0x1D);       //write tx length byte 1
+    SPI_writeSingle(len_byte2, 0x1E);       //write tx length byte 2
+
+    //write command to fifo
+    SPI_writeContinuous(bytes, 0x1F);
+
+    //reset after transmission
+    reset_after_command();
 
 }
 
