@@ -1,7 +1,7 @@
 ******************************************************************************
                   MSP430 Linker PC v16.9.4                     
 ******************************************************************************
->> Linked Mon Feb 26 12:56:31 2018
+>> Linked Mon Feb 26 16:28:08 2018
 
 OUTPUT FILE NAME:   <DLP_7970ABP.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs_noexit_mpu"  address: 00004000
@@ -80,7 +80,7 @@ MEMORY CONFIGURATION
   INT53                 0000fffa   00000002  00000002  00000000  RWIX
   INT54                 0000fffc   00000002  00000002  00000000  RWIX
   RESET                 0000fffe   00000002  00000002  00000000  RWIX
-  FRAM2                 00010000   00034000  00000354  00033cac  RWIX
+  FRAM2                 00010000   00034000  00000442  00033bbe  RWIX
 
 
 SECTION ALLOCATION MAP
@@ -264,37 +264,45 @@ SYSNMI     0    0000fffc    00000002
 .reset     0    0000fffe    00000002     
                   0000fffe    00000002     rts430x_lc_rd_eabi.lib : boot.obj (.reset)
 
-.text      0    00010000    00000354     
+.text      0    00010000    00000442     
                   00010000    00000082     rts430x_lc_rd_eabi.lib : autoinit_wdt.obj (.text:_auto_init_hold_wdt)
                   00010082    00000078                            : copy_decompress_lzss.obj (.text:decompress:lzss:__TI_decompress_lzss)
                   000100fa    00000066                            : cpy_tbl.obj (.text:copy_in)
                   00010160    0000005a     timer.obj (.text:delay_us)
-                  000101ba    00000054     mcu.obj (.text:mcu_init)
-                  0001020e    00000034     timer.obj (.text:timer_test)
-                  00010242    0000002e     mcu.obj (.text:xt1_init)
-                  00010270    0000002c     MSPMPU_INIT_LIB_CCS_msp430_large_code_restricted_data.lib : mpu_init.o (.text:__mpu_init)
-                  0001029c    0000002c     rts430x_lc_rd_eabi.lib : div16s.obj (.text)
-                  000102c8    00000020     spi.obj (.text:uscib1_init)
-                  000102e8    00000018     rts430x_lc_rd_eabi.lib : mult16_f5hw.obj (.text)
-                  00010300    00000016                            : div16u.obj (.text)
-                  00010316    00000014                            : memcpy.obj (.text:memcpy)
-                  0001032a    00000012                            : copy_decompress_none.obj (.text:decompress:none:__TI_decompress_none)
-                  0001033c    0000000c     main.obj (.text:main)
-                  00010348    00000006     rts430x_lc_rd_eabi.lib : exit.obj (.text:abort)
-                  0001034e    00000004                            : pre_init.obj (.text:_system_pre_init)
-                  00010352    00000002                            : startup.obj (.text:_system_post_cinit)
+                  000101ba    0000005a     trf7970.obj (.text:trf7970_init)
+                  00010214    00000054     mcu.obj (.text:mcu_init)
+                  00010268    00000044     NFC-A.obj (.text:collision_initial)
+                  000102ac    0000002e     mcu.obj (.text:xt1_init)
+                  000102da    0000002c     MSPMPU_INIT_LIB_CCS_msp430_large_code_restricted_data.lib : mpu_init.o (.text:__mpu_init)
+                  00010306    0000002c     rts430x_lc_rd_eabi.lib : div16s.obj (.text)
+                  00010332    00000026     spi.obj (.text:SPI_readSingle)
+                  00010358    00000020     spi.obj (.text:uscib1_init)
+                  00010378    0000001c     spi.obj (.text:SPI_writeSingle)
+                  00010394    00000018     main.obj (.text:main)
+                  000103ac    00000018     rts430x_lc_rd_eabi.lib : mult16_f5hw.obj (.text)
+                  000103c4    00000016     spi.obj (.text:SPI_directCommand)
+                  000103da    00000016     rts430x_lc_rd_eabi.lib : div16u.obj (.text)
+                  000103f0    00000014                            : memcpy.obj (.text:memcpy)
+                  00010404    00000012     spi.obj (.text:SPI_ReceiveByte)
+                  00010416    00000012     rts430x_lc_rd_eabi.lib : copy_decompress_none.obj (.text:decompress:none:__TI_decompress_none)
+                  00010428    0000000e     spi.obj (.text:SPI_SendByte)
+                  00010436    00000006     rts430x_lc_rd_eabi.lib : exit.obj (.text:abort)
+                  0001043c    00000004                            : pre_init.obj (.text:_system_pre_init)
+                  00010440    00000002                            : startup.obj (.text:_system_post_cinit)
 
 MODULE SUMMARY
 
        Module                     code   ro data   rw data
        ------                     ----   -------   -------
     .\source\
+       spi.obj                    152    0         0      
        mcu.obj                    140    2         0      
-       timer.obj                  142    0         0      
-       spi.obj                    32     0         0      
-       main.obj                   12     0         2      
+       timer.obj                  90     0         0      
+       trf7970.obj                90     0         0      
+       NFC-A.obj                  68     0         0      
+       main.obj                   24     0         2      
     +--+--------------------------+------+---------+---------+
-       Total:                     326    2         2      
+       Total:                     564    2         2      
                                                           
     C:\ti\ccsv7\ccs_base\msp430\lib\FR59xx\MSPMPU_INIT_LIB_CCS_msp430_large_code_restricted_data.lib
        mpu_init.o                 44     0         0      
@@ -358,7 +366,7 @@ MODULE SUMMARY
        Stack:                     0      0         160    
        Linker Generated:          0      22        0      
     +--+--------------------------+------+---------+---------+
-       Grand Total:               900    98        162    
+       Grand Total:               1138   98        162    
 
 
 LINKER GENERATED COPY TABLES
@@ -639,7 +647,7 @@ address   name
 000004bc  BIN2BCD                   
 000004bd  BIN2BCD_H                 
 000004bc  BIN2BCD_L                 
-00010348  C$$EXIT                   
+00010436  C$$EXIT                   
 0000043e  CAPTIO0CTL                
 0000043f  CAPTIO0CTL_H              
 0000043e  CAPTIO0CTL_L              
@@ -1308,6 +1316,11 @@ address   name
 00000104  SFRRPCR                   
 00000105  SFRRPCR_H                 
 00000104  SFRRPCR_L                 
+00010404  SPI_ReceiveByte           
+00010428  SPI_SendByte              
+000103c4  SPI_directCommand         
+00010332  SPI_readSingle            
+00010378  SPI_writeSingle           
 000004ce  SUMEXT                    
 000004cf  SUMEXT_H                  
 000004ce  SUMEXT_L                  
@@ -1893,7 +1906,7 @@ UNDEFED   __TI_INITARRAY_Base
 UNDEFED   __TI_INITARRAY_Limit      
 00004028  __TI_ISR_TRAP             
 00010082  __TI_decompress_lzss      
-0001032a  __TI_decompress_none      
+00010416  __TI_decompress_none      
 0000ffb4  __TI_int18                
 0000ffb6  __TI_int19                
 0000ffb8  __TI_int20                
@@ -1936,35 +1949,36 @@ ffffffff  __TI_prof_data_size
 ffffffff  __TI_prof_data_start      
 ffffffff  __c_args__                
 00000001  __mpu_enable              
-00010270  __mpu_init                
-0001029c  __mspabi_divi             
-00010300  __mspabi_divu             
-000102e8  __mspabi_mpyi_f5hw        
-0001029c  __mspabi_remi             
-00010300  __mspabi_remu             
+000102da  __mpu_init                
+00010306  __mspabi_divi             
+000103da  __mspabi_divu             
+000103ac  __mspabi_mpyi_f5hw        
+00010306  __mspabi_remi             
+000103da  __mspabi_remu             
 00010000  _auto_init_hold_wdt       
 00004000  _c_int00_noargs_noexit_mpu
 0000fffe  _reset_vector             
 00002b60  _stack                    
-00010352  _system_post_cinit        
-0001034e  _system_pre_init          
-00010348  abort                     
+00010440  _system_post_cinit        
+0001043c  _system_pre_init          
+00010436  abort                     
+00010268  collision_initial         
 000100fa  copy_in                   
 00010160  delay_us                  
 00004000  fram_ipe_end              
 00004000  fram_ipe_start            
 00004000  fram_rw_start             
 00004000  fram_rx_start             
-0001033c  main                      
-000101ba  mcu_init                  
-00010316  memcpy                    
+00010394  main                      
+00010214  mcu_init                  
+000103f0  memcpy                    
 0000a501  mpu_ctl0_value            
 00001513  mpu_sam_value             
 00000400  mpu_segment_border1       
 00000400  mpu_segment_border2       
-0001020e  timer_test                
-000102c8  uscib1_init               
-00010242  xt1_init                  
+000101ba  trf7970_init              
+00010358  uscib1_init               
+000102ac  xt1_init                  
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -3533,23 +3547,29 @@ address   name
 00010082  __TI_decompress_lzss      
 000100fa  copy_in                   
 00010160  delay_us                  
-000101ba  mcu_init                  
-0001020e  timer_test                
-00010242  xt1_init                  
-00010270  __mpu_init                
-0001029c  __mspabi_divi             
-0001029c  __mspabi_remi             
-000102c8  uscib1_init               
-000102e8  __mspabi_mpyi_f5hw        
-00010300  __mspabi_divu             
-00010300  __mspabi_remu             
-00010316  memcpy                    
-0001032a  __TI_decompress_none      
-0001033c  main                      
-00010348  C$$EXIT                   
-00010348  abort                     
-0001034e  _system_pre_init          
-00010352  _system_post_cinit        
+000101ba  trf7970_init              
+00010214  mcu_init                  
+00010268  collision_initial         
+000102ac  xt1_init                  
+000102da  __mpu_init                
+00010306  __mspabi_divi             
+00010306  __mspabi_remi             
+00010332  SPI_readSingle            
+00010358  uscib1_init               
+00010378  SPI_writeSingle           
+00010394  main                      
+000103ac  __mspabi_mpyi_f5hw        
+000103c4  SPI_directCommand         
+000103da  __mspabi_divu             
+000103da  __mspabi_remu             
+000103f0  memcpy                    
+00010404  SPI_ReceiveByte           
+00010416  __TI_decompress_none      
+00010428  SPI_SendByte              
+00010436  C$$EXIT                   
+00010436  abort                     
+0001043c  _system_pre_init          
+00010440  _system_post_cinit        
 ffffffff  __TI_pprof_out_hndl       
 ffffffff  __TI_prof_data_size       
 ffffffff  __TI_prof_data_start      
@@ -3559,4 +3579,4 @@ UNDEFED   __TI_BINIT_Limit
 UNDEFED   __TI_INITARRAY_Base       
 UNDEFED   __TI_INITARRAY_Limit      
 
-[1587 symbols]
+[1593 symbols]

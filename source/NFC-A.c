@@ -10,15 +10,18 @@
 #include "headers/mcu.h"
 #include "headers/spi.h"
 #include "headers/NFC-A.h"
+#include "headers/timer.h"
 
 //performs initial rf collision
 //returns true if no collision, false if collision
 _Bool collision_initial() {
     uint8_t rssi_level;
+    uint8_t check;          //debugging
 
     //write 0x02 to 0x00 to enable receiver and set in 3v mode
     SPI_writeSingle(0x02, 0x00);
 
+    SPI_readSingle(&check, 0x00);       //debugging
     //write direct command 0x19 to test external rf
     SPI_directCommand(0x19);
 
@@ -26,14 +29,15 @@ _Bool collision_initial() {
     delay_us(50);
 
     //read 0x0F RSSI levels register
-    SPI_readSingle(&rssi_level, 0x0F)
+    SPI_readSingle(&rssi_level, 0x0F);
 
     //check bits 2-0 active channel RSSI value. If greater than 0, stay
     //in target mode (return false). Else, go into initiator/target mode
     //(return true)
     rssi_level &= 0x07;     //get bits 2-0
     if(rssi_level > 0) return false;
-    else if(rssi_level == 0) return true;
+    else return true;
+
 
 
 }
@@ -53,7 +57,7 @@ void reset_after_command() {
 }
 
 
-void initiator_sendPacket(uint8_t[] bytes, int len) {
+void initiator_sendPacket(uint8_t bytes[], int len) {
     //delay time specified in technology spec (56us to 188us)
     uint8_t len_byte1;
     uint8_t len_byte2;
@@ -79,13 +83,13 @@ void initiator_sendPacket(uint8_t[] bytes, int len) {
     SPI_writeSingle(len_byte2, 0x1E);       //write tx length byte 2
 
     //write command to fifo
-    SPI_writeContinuous(bytes, 0x1F);
+    SPI_writeContinuous(bytes, 0x1F, len);
 
     //reset after transmission
     reset_after_command();
 }
 
-void target_sendPacket(uint8_t[] bytes, int len) {
+void target_sendPacket(uint8_t bytes[], int len) {
     //delay time specified in technology spec (56us to 188us)
     uint8_t len_byte1;
     uint8_t len_byte2;
@@ -111,7 +115,7 @@ void target_sendPacket(uint8_t[] bytes, int len) {
     SPI_writeSingle(len_byte2, 0x1E);       //write tx length byte 2
 
     //write command to fifo
-    SPI_writeContinuous(bytes, 0x1F);
+    SPI_writeContinuous(bytes, 0x1F, len);
 
     //reset after transmission
     reset_after_command();

@@ -95,7 +95,7 @@ uint8_t SPI_ReceiveByte(){
 
 }
 
-void SPI_readCont(uint8_t *pbuf, uint8_t reg, uint8_t length)
+void SPI_readContinuous(uint8_t *pbuf, uint8_t reg, uint8_t length)
 {
     volatile int8_t x;
 
@@ -118,7 +118,7 @@ void SPI_readCont(uint8_t *pbuf, uint8_t reg, uint8_t length)
 
 }
 
-void SPI_writeCont(uint8_t *pbuf, uint8_t reg, uint8_t length)
+void SPI_writeContinuous(uint8_t *pbuf, uint8_t reg, uint8_t length)
 {
     volatile int8_t x;
 
