@@ -1,8 +1,8 @@
 #include <msp430.h> 
 #include <stdint.h>
-#include "mcu.h"
-#include "spi.h"
-#include "trf7970.h"
+#include "headers/mcu.h"
+#include "headers/spi.h"
+#include "headers/trf7970.h"
 
 /**
  * main.c
@@ -47,14 +47,7 @@ int main(void)
     //__delay_cycles(4000);                       //variables seem to be off during delay; why?
 
     while(1) {
-        EN_HIGH;
-        delay_us(20000);
-        EN_LOW;
-        delay_us(8000);
-        EN_HIGH;
-        delay_us(1000);
-        EN_LOW;
-        delay_us(100);
+       timer_test();
     }
 
 

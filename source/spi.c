@@ -7,9 +7,9 @@
 
 #include <msp430.h>
 #include <stdint.h>
-#include "mcu.h"
-#include "spi.h"
-#include "trf7970.h"
+#include "headers/mcu.h"
+#include "headers/spi.h"
+#include "headers/trf7970.h"
 
 void uscib1_init() {
     // Configure USCI_B1 for SPI operation

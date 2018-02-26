@@ -7,9 +7,9 @@
 
 #include <msp430fr5994.h>
 #include <stdbool.h>
-#include "mcu.h"
-#include "spi.h"
-#include "trf7970.h"
+#include "headers/mcu.h"
+#include "headers/spi.h"
+#include "headers/trf7970.h"
 
 void mcu_init() {
     WDTCTL = WDTPW | WDTHOLD;

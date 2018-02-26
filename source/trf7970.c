@@ -6,9 +6,9 @@
  */
 
 #include <msp430fr5994.h>
-#include "mcu.h"
-#include "trf7970.h"
-#include "spi.h"
+#include "headers/mcu.h"
+#include "headers/trf7970.h"
+#include "headers/spi.h"
 
 
 void trf7970_init() {

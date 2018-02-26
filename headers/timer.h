@@ -9,6 +9,7 @@
 #define TIMER_H_
 
 void delay_us(int us);
+void timer_test();
 
 
 
