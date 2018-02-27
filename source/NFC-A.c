@@ -16,17 +16,16 @@
 //returns true if no collision, false if collision
 _Bool collision_initial() {
     uint8_t rssi_level;
-    uint8_t check;          //debugging
+
 
     //write 0x02 to 0x00 to enable receiver and set in 3v mode
     SPI_writeSingle(0x02, 0x00);
 
-    SPI_readSingle(&check, 0x00);       //debugging
     //write direct command 0x19 to test external rf
     SPI_directCommand(0x19);
 
     //delay 50us to measure field strength and set RSSI register
-    delay_us(50);
+    delay_us(70);
 
     //read 0x0F RSSI levels register
     SPI_readSingle(&rssi_level, 0x0F);
@@ -61,10 +60,14 @@ void initiator_sendPacket(uint8_t bytes[], int len) {
     //delay time specified in technology spec (56us to 188us)
     uint8_t len_byte1;
     uint8_t len_byte2;
+    uint8_t temp;
     delay_us(150);
 
     //write to ISO control register - ISO1443A @ 106kbps, with CRC
     SPI_writeSingle(0x08, 0x01);
+
+    //guessing: write 0x22 to 0x00 to turn on transmitter?
+    SPI_writeSingle(0x22, 0x00);
 
     delay_us(1000);
 
@@ -82,11 +85,15 @@ void initiator_sendPacket(uint8_t bytes[], int len) {
     SPI_writeSingle(len_byte1, 0x1D);       //write tx length byte 1
     SPI_writeSingle(len_byte2, 0x1E);       //write tx length byte 2
 
+    SPI_readSingle(&temp, 0x00);
+
     //write command to fifo
     SPI_writeContinuous(bytes, 0x1F, len);
+    SPI_readSingle(&temp, 0x00);
 
     //reset after transmission
     reset_after_command();
+
 }
 
 void target_sendPacket(uint8_t bytes[], int len) {
