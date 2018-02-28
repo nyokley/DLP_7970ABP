@@ -8,6 +8,18 @@
 #ifndef MCU_H
 #define MCU_H
 
+extern _Bool READ_VALUE;
+
+//Tx Button - P5.5
+#define txBtn_SETDIR          P5DIR &= ~BIT5
+#define txBtn_REN             P5REN |= BIT5      //disable pullup resistor
+#define txBtn_IE              P5IE |= BIT5      //interrupt enable
+#define txBtn_IES_RISING      P5IES &= ~BIT5      //Interrupt edge select - rising
+#define txBtn_IES_FALLING     P5IES |= BIT5       //interrupt edge select - falling
+#define txBtn_IFG_CLR         P5IFG &= ~BIT5      //IFG cleared
+#define txBtn_HIGH            P5OUT |= BIT5
+#define txBtn_LOW             P5OUT &= ~BIT5
+
 //IRQ - P6.3
 #define IRQ_SETDIR          P6DIR &= ~BIT3
 #define IRQ_RDIS            P6REN &= ~BIT3      //disable pullup resistor

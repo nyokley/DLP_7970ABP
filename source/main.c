@@ -10,19 +10,26 @@
  * main.c
  */
 
- _Bool IRQ_SHOULD_READ = 0;
+_Bool READ_VALUE = 0;
+_Bool IRQ_SHOULD_READ = 0;
 uint8_t IRQ_STAT = 0;
+uint8_t fifo_val_something = 0;
 
+uint8_t fifo_something = 0;
+uint8_t irq_something = 0;
 int main(void)
 {
     _Bool collision_check;
-    uint8_t temp = 0;
+    uint8_t fifo_val = 0;
+
+    uint8_t fifo = 0;
     uint8_t irq = 0;
     uint8_t iso_ctrl = 0;
     uint8_t rssi_level = 0;
 
+
     uint8_t bytes[1];
-    bytes[0] = 0xA;
+    bytes[0] = 0xAA;
 
 
 	mcu_init();
@@ -65,11 +72,38 @@ int main(void)
     //collision_initial();
 	SPI_writeSingle(0x02, 0x00);
 
-
+    reset_after_command();
+    
+    
 	while(1) {
-	    initiator_sendPacket(bytes, 1);
-	    SPI_readSingle(&temp, 0x00);        //check control register, shouldn't be 0x02
-        delay_us(10000);
+        
+	    if(READ_VALUE) {
+	        initiator_sendPacket(bytes, 1);
+	        READ_VALUE = 0;
+
+	    }
+	        SPI_readSingle(&fifo, 0x1C);
+	        SPI_readSingle(&irq, 0x0C);
+	        if(fifo != 0x00) {
+	            fifo_something = fifo;
+	            SPI_readContinuous(&fifo_val, 0x1F, 1);
+	            if(fifo_val != 0){
+	                fifo_val_something = fifo_val;
+	            }
+	        }
+	        if(irq != 0x00) {
+	            irq_something = irq;
+	        }
+
+	        delay_us(1000);
+
+
+	        //READ_VALUE = 0;
+	       //initiator_sendPacket(bytes, 1);
+            //reset_after_command();
+           // START_TRANSFER = 0;
+
+
 	}
 
 

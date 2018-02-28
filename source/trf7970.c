@@ -33,7 +33,11 @@ void trf7970_init() {
         SPI_writeSingle(0x00, 0x18);
         SPI_writeSingle(0x02, 0x00);    //set to 3v mode
 
-        //SPI_writeSingle(0xB8, 0x01);    //write to IRQ control register
+        SPI_writeSingle(0x28, 0x01);    //write to ISO control register - b4=0 for target
+        SPI_writeSingle(0x07, 0x18);    //set target detection register
+        SPI_writeSingle(0x18, 0x03);    //set parity odd for rx and tx
+
+        //SPI_writeSingle(0xB8, 0x01);    //write to ISO control register
 
 }
 

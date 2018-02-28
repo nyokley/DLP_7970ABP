@@ -1,7 +1,7 @@
 ******************************************************************************
                   MSP430 Linker PC v16.9.4                     
 ******************************************************************************
->> Linked Wed Feb 28 11:49:52 2018
+>> Linked Tue Feb 27 13:01:53 2018
 
 OUTPUT FILE NAME:   <DLP_7970ABP.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs_noexit_mpu"  address: 00004000
@@ -17,10 +17,10 @@ MEMORY CONFIGURATION
   INFOC                 00001880   00000080  00000000  00000080  RWIX
   INFOB                 00001900   00000080  00000000  00000080  RWIX
   INFOA                 00001980   00000080  00000000  00000080  RWIX
-  RAM                   00001c00   00001000  000000a6  00000f5a  RWIX
+  RAM                   00001c00   00001000  000000a2  00000f5e  RWIX
   LEARAM                00002c00   00000ec8  00000000  00000ec8  RWIX
   LEASTACK              00003ac8   00000138  00000000  00000138  RWIX
-  FRAM                  00004000   0000bf80  00000054  0000bf2c  RWIX
+  FRAM                  00004000   0000bf80  00000046  0000bf3a  RWIX
   JTAGSIGNATURE         0000ff80   00000004  00000004  00000000  RWIX  ffff 
   BSLSIGNATURE          0000ff84   00000004  00000004  00000000  RWIX  ffff 
   IPESIGNATURE          0000ff88   00000008  00000008  00000000  RWIX  ffff 
@@ -80,7 +80,7 @@ MEMORY CONFIGURATION
   INT53                 0000fffa   00000002  00000002  00000000  RWIX
   INT54                 0000fffc   00000002  00000002  00000000  RWIX
   RESET                 0000fffe   00000002  00000002  00000000  RWIX
-  FRAM2                 00010000   00034000  000005be  00033a42  RWIX
+  FRAM2                 00010000   00034000  000004f0  00033b10  RWIX
 
 
 SECTION ALLOCATION MAP
@@ -88,8 +88,8 @@ SECTION ALLOCATION MAP
  output                                  attributes/
 section   page    origin      length       input sections
 --------  ----  ----------  ----------   ----------------
-.data      0    00001c00    00000006     UNINITIALIZED
-                  00001c00    00000006     main.obj (.data)
+.data      0    00001c00    00000002     UNINITIALIZED
+                  00001c00    00000002     main.obj (.data)
 
 .stack     0    00002b60    000000a0     UNINITIALIZED
                   00002b60    00000004     rts430x_lc_rd_eabi.lib : boot.obj (.stack)
@@ -115,21 +115,19 @@ section   page    origin      length       input sections
 
 .binit     0    00004000    00000000     
 
-.cinit     0    0000403c    00000018     
-                  0000403c    00000008     (__TI_handler_table)
-                  00004044    00000007     (.cinit..data.load) [load image, compression = lzss]
-                  0000404b    00000001     --HOLE-- [fill = 0]
-                  0000404c    00000008     (__TI_cinit_table)
+.cinit     0    00004030    00000016     
+                  00004030    00000008     (__TI_handler_table)
+                  00004038    00000006     (.cinit..data.load) [load image, compression = lzss]
+                  0000403e    00000008     (__TI_cinit_table)
 
 .init_array 
 *          0    00004000    00000000     UNINITIALIZED
 
 .text:_isr 
-*          0    00004000    0000003c     
+*          0    00004000    00000030     
                   00004000    0000001e     rts430x_lc_rd_eabi.lib : boot_special.obj (.text:_isr:_c_int00_noargs_noexit_mpu)
-                  0000401e    0000000c     mcu.obj (.text:_isr:Port_5)
-                  0000402a    0000000a     mcu.obj (.text:_isr:Port_6)
-                  00004034    00000008     rts430x_lc_rd_eabi.lib : isr_trap.obj (.text:_isr:__TI_ISR_TRAP)
+                  0000401e    0000000a     mcu.obj (.text:_isr:Port_6)
+                  00004028    00000008     rts430x_lc_rd_eabi.lib : isr_trap.obj (.text:_isr:__TI_ISR_TRAP)
 
 $fill000   0    0000ff80    00000004     
                   0000ff80    00000004     --HOLE-- [fill = ffff]
@@ -168,7 +166,7 @@ PORT6      0    0000ffc4    00000002
                   0000ffc4    00000002     mcu.obj (.int26)
 
 PORT5      0    0000ffc6    00000002     
-                  0000ffc6    00000002     mcu.obj (.int27)
+                  0000ffc6    00000002     rts430x_lc_rd_eabi.lib : int27.obj (.int27)
 
 TIMER4_A1 
 *          0    0000ffc8    00000002     
@@ -266,48 +264,47 @@ SYSNMI     0    0000fffc    00000002
 .reset     0    0000fffe    00000002     
                   0000fffe    00000002     rts430x_lc_rd_eabi.lib : boot.obj (.reset)
 
-.text      0    00010000    000005be     
-                  00010000    00000096     main.obj (.text:main)
-                  00010096    00000082     rts430x_lc_rd_eabi.lib : autoinit_wdt.obj (.text:_auto_init_hold_wdt)
-                  00010118    0000007e     NFC-A.obj (.text:initiator_sendPacket)
-                  00010196    0000007c     trf7970.obj (.text:trf7970_init)
-                  00010212    00000078     rts430x_lc_rd_eabi.lib : copy_decompress_lzss.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  0001028a    00000078     mcu.obj (.text:mcu_init)
-                  00010302    00000066     rts430x_lc_rd_eabi.lib : cpy_tbl.obj (.text:copy_in)
-                  00010368    0000005a     timer.obj (.text:delay_us)
-                  000103c2    0000002e     spi.obj (.text:SPI_readContinuous)
-                  000103f0    0000002e     mcu.obj (.text:xt1_init)
-                  0001041e    0000002c     spi.obj (.text:SPI_writeContinuous)
-                  0001044a    0000002c     MSPMPU_INIT_LIB_CCS_msp430_large_code_restricted_data.lib : mpu_init.o (.text:__mpu_init)
-                  00010476    0000002c     rts430x_lc_rd_eabi.lib : div16s.obj (.text)
-                  000104a2    00000026     spi.obj (.text:SPI_readSingle)
-                  000104c8    00000024     NFC-A.obj (.text:reset_after_command)
-                  000104ec    00000020     spi.obj (.text:uscib1_init)
-                  0001050c    0000001c     spi.obj (.text:SPI_writeSingle)
-                  00010528    00000018     rts430x_lc_rd_eabi.lib : mult16_f5hw.obj (.text)
-                  00010540    00000016     spi.obj (.text:SPI_directCommand)
-                  00010556    00000016     rts430x_lc_rd_eabi.lib : div16u.obj (.text)
-                  0001056c    00000014                            : memcpy.obj (.text:memcpy)
-                  00010580    00000012     spi.obj (.text:SPI_ReceiveByte)
-                  00010592    00000012     rts430x_lc_rd_eabi.lib : copy_decompress_none.obj (.text:decompress:none:__TI_decompress_none)
-                  000105a4    0000000e     spi.obj (.text:SPI_SendByte)
-                  000105b2    00000006     rts430x_lc_rd_eabi.lib : exit.obj (.text:abort)
-                  000105b8    00000004                            : pre_init.obj (.text:_system_pre_init)
-                  000105bc    00000002                            : startup.obj (.text:_system_post_cinit)
+.text      0    00010000    000004f0     
+                  00010000    00000082     rts430x_lc_rd_eabi.lib : autoinit_wdt.obj (.text:_auto_init_hold_wdt)
+                  00010082    0000007c     NFC-A.obj (.text:initiator_sendPacket)
+                  000100fe    00000078     rts430x_lc_rd_eabi.lib : copy_decompress_lzss.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  00010176    00000066                            : cpy_tbl.obj (.text:copy_in)
+                  000101dc    0000005e     timer.obj (.text:delay_us)
+                  0001023a    00000058     trf7970.obj (.text:trf7970_init)
+                  00010292    00000054     mcu.obj (.text:mcu_init)
+                  000102e6    0000003c     main.obj (.text:main)
+                  00010322    0000002e     mcu.obj (.text:xt1_init)
+                  00010350    0000002c     spi.obj (.text:SPI_writeContinuous)
+                  0001037c    0000002c     MSPMPU_INIT_LIB_CCS_msp430_large_code_restricted_data.lib : mpu_init.o (.text:__mpu_init)
+                  000103a8    0000002c     rts430x_lc_rd_eabi.lib : div16s.obj (.text)
+                  000103d4    00000024     spi.obj (.text:SPI_readSingle)
+                  000103f8    00000022     NFC-A.obj (.text:reset_after_command)
+                  0001041a    00000020     spi.obj (.text:uscib1_init)
+                  0001043a    0000001c     spi.obj (.text:SPI_writeSingle)
+                  00010456    0000001a     spi.obj (.text:SPI_directCommand)
+                  00010470    00000018     rts430x_lc_rd_eabi.lib : mult16_f5hw.obj (.text)
+                  00010488    00000016                            : div16u.obj (.text)
+                  0001049e    00000014                            : memcpy.obj (.text:memcpy)
+                  000104b2    00000012     spi.obj (.text:SPI_ReceiveByte)
+                  000104c4    00000012     rts430x_lc_rd_eabi.lib : copy_decompress_none.obj (.text:decompress:none:__TI_decompress_none)
+                  000104d6    0000000e     spi.obj (.text:SPI_SendByte)
+                  000104e4    00000006     rts430x_lc_rd_eabi.lib : exit.obj (.text:abort)
+                  000104ea    00000004                            : pre_init.obj (.text:_system_pre_init)
+                  000104ee    00000002                            : startup.obj (.text:_system_post_cinit)
 
 MODULE SUMMARY
 
        Module                     code   ro data   rw data
        ------                     ----   -------   -------
     .\source\
-       spi.obj                    242    0         0      
-       mcu.obj                    188    4         0      
-       NFC-A.obj                  162    0         0      
-       main.obj                   150    0         6      
-       trf7970.obj                124    0         0      
-       timer.obj                  90     0         0      
+       spi.obj                    198    0         0      
+       NFC-A.obj                  158    0         0      
+       mcu.obj                    140    2         0      
+       timer.obj                  94     0         0      
+       trf7970.obj                88     0         0      
+       main.obj                   60     0         2      
     +--+--------------------------+------+---------+---------+
-       Total:                     956    4         6      
+       Total:                     738    2         2      
                                                           
     C:\ti\ccsv7\ccs_base\msp430\lib\FR59xx\MSPMPU_INIT_LIB_CCS_msp430_large_code_restricted_data.lib
        mpu_init.o                 44     0         0      
@@ -336,6 +333,7 @@ MODULE SUMMARY
        int23.obj                  0      2         0      
        int24.obj                  0      2         0      
        int25.obj                  0      2         0      
+       int27.obj                  0      2         0      
        int28.obj                  0      2         0      
        int29.obj                  0      2         0      
        int30.obj                  0      2         0      
@@ -365,23 +363,23 @@ MODULE SUMMARY
        int54.obj                  0      2         0      
        startup.obj                2      0         0      
     +--+--------------------------+------+---------+---------+
-       Total:                     530    72        0      
+       Total:                     530    74        0      
                                                           
        Stack:                     0      0         160    
-       Linker Generated:          0      23        0      
+       Linker Generated:          0      22        0      
     +--+--------------------------+------+---------+---------+
-       Grand Total:               1530   99        166    
+       Grand Total:               1312   98        162    
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 0000404c records: 1, size/record: 8, table size: 8
-	.data: load addr=00004044, load size=00000007 bytes, run addr=00001c00, run size=00000006 bytes, compression=lzss
+__TI_cinit_table @ 0000403e records: 1, size/record: 8, table size: 8
+	.data: load addr=00004038, load size=00000006 bytes, run addr=00001c00, run size=00000002 bytes, compression=lzss
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 0000403c records: 2, size/record: 4, table size: 8
+__TI_handler_table @ 00004030 records: 2, size/record: 4, table size: 8
 	index: 0, handler: __TI_decompress_lzss
 	index: 1, handler: __TI_decompress_none
 
@@ -651,7 +649,7 @@ address   name
 000004bc  BIN2BCD                   
 000004bd  BIN2BCD_H                 
 000004bc  BIN2BCD_L                 
-000105b2  C$$EXIT                   
+000104e4  C$$EXIT                   
 0000043e  CAPTIO0CTL                
 0000043f  CAPTIO0CTL_H              
 0000043e  CAPTIO0CTL_L              
@@ -841,8 +839,8 @@ address   name
 00000146  GCCTL1                    
 00000147  GCCTL1_H                  
 00000146  GCCTL1_L                  
-00001c01  IRQ_SHOULD_READ           
-00001c02  IRQ_STAT                  
+00001c00  IRQ_SHOULD_READ           
+00001c01  IRQ_STAT                  
 00000a80  LEACAP                    
 00000a82  LEACAPH                   
 00000a80  LEACAPL                   
@@ -1232,12 +1230,10 @@ address   name
 0000012a  PMMIFG                    
 0000012b  PMMIFG_H                  
 0000012a  PMMIFG_L                  
-0000401e  Port_5                    
-0000402a  Port_6                    
+0000401e  Port_6                    
 00000158  RCCTL0                    
 00000159  RCCTL0_H                  
 00000158  RCCTL0_L                  
-00001c00  READ_VALUE                
 000001b0  REFCTL0                   
 000001b1  REFCTL0_H                 
 000001b0  REFCTL0_L                 
@@ -1322,13 +1318,12 @@ address   name
 00000104  SFRRPCR                   
 00000105  SFRRPCR_H                 
 00000104  SFRRPCR_L                 
-00010580  SPI_ReceiveByte           
-000105a4  SPI_SendByte              
-00010540  SPI_directCommand         
-000103c2  SPI_readContinuous        
-000104a2  SPI_readSingle            
-0001041e  SPI_writeContinuous       
-0001050c  SPI_writeSingle           
+000104b2  SPI_ReceiveByte           
+000104d6  SPI_SendByte              
+00010456  SPI_directCommand         
+000103d4  SPI_readSingle            
+00010350  SPI_writeContinuous       
+0001043a  SPI_writeSingle           
 000004ce  SUMEXT                    
 000004cf  SUMEXT_H                  
 000004ce  SUMEXT_L                  
@@ -1906,15 +1901,15 @@ address   name
 000000a0  __STACK_SIZE              
 UNDEFED   __TI_BINIT_Base           
 UNDEFED   __TI_BINIT_Limit          
-0000404c  __TI_CINIT_Base           
-00004054  __TI_CINIT_Limit          
-0000403c  __TI_Handler_Table_Base   
-00004044  __TI_Handler_Table_Limit  
+0000403e  __TI_CINIT_Base           
+00004046  __TI_CINIT_Limit          
+00004030  __TI_Handler_Table_Base   
+00004038  __TI_Handler_Table_Limit  
 UNDEFED   __TI_INITARRAY_Base       
 UNDEFED   __TI_INITARRAY_Limit      
-00004034  __TI_ISR_TRAP             
-00010212  __TI_decompress_lzss      
-00010592  __TI_decompress_none      
+00004028  __TI_ISR_TRAP             
+000100fe  __TI_decompress_lzss      
+000104c4  __TI_decompress_none      
 0000ffb4  __TI_int18                
 0000ffb6  __TI_int19                
 0000ffb8  __TI_int20                
@@ -1957,40 +1952,37 @@ ffffffff  __TI_prof_data_size
 ffffffff  __TI_prof_data_start      
 ffffffff  __c_args__                
 00000001  __mpu_enable              
-0001044a  __mpu_init                
-00010476  __mspabi_divi             
-00010556  __mspabi_divu             
-00010528  __mspabi_mpyi_f5hw        
-00010476  __mspabi_remi             
-00010556  __mspabi_remu             
-00010096  _auto_init_hold_wdt       
+0001037c  __mpu_init                
+000103a8  __mspabi_divi             
+00010488  __mspabi_divu             
+00010470  __mspabi_mpyi_f5hw        
+000103a8  __mspabi_remi             
+00010488  __mspabi_remu             
+00010000  _auto_init_hold_wdt       
 00004000  _c_int00_noargs_noexit_mpu
 0000fffe  _reset_vector             
 00002b60  _stack                    
-000105bc  _system_post_cinit        
-000105b8  _system_pre_init          
-000105b2  abort                     
-00010302  copy_in                   
-00010368  delay_us                  
-00001c04  fifo_something            
-00001c03  fifo_val_something        
+000104ee  _system_post_cinit        
+000104ea  _system_pre_init          
+000104e4  abort                     
+00010176  copy_in                   
+000101dc  delay_us                  
 00004000  fram_ipe_end              
 00004000  fram_ipe_start            
 00004000  fram_rw_start             
 00004000  fram_rx_start             
-00010118  initiator_sendPacket      
-00001c05  irq_something             
-00010000  main                      
-0001028a  mcu_init                  
-0001056c  memcpy                    
+00010082  initiator_sendPacket      
+000102e6  main                      
+00010292  mcu_init                  
+0001049e  memcpy                    
 0000a501  mpu_ctl0_value            
 00001513  mpu_sam_value             
 00000400  mpu_segment_border1       
 00000400  mpu_segment_border2       
-000104c8  reset_after_command       
-00010196  trf7970_init              
-000104ec  uscib1_init               
-000103f0  xt1_init                  
+000103f8  reset_after_command       
+0001023a  trf7970_init              
+0001041a  uscib1_init               
+00010322  xt1_init                  
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -3501,12 +3493,8 @@ address   name
 00000afc  LEAIVL                    
 00000afe  LEAIVH                    
 00001513  mpu_sam_value             
-00001c00  READ_VALUE                
-00001c01  IRQ_SHOULD_READ           
-00001c02  IRQ_STAT                  
-00001c03  fifo_val_something        
-00001c04  fifo_something            
-00001c05  irq_something             
+00001c00  IRQ_SHOULD_READ           
+00001c01  IRQ_STAT                  
 00002b60  _stack                    
 00002c00  __STACK_END               
 00004000  _c_int00_noargs_noexit_mpu
@@ -3514,13 +3502,12 @@ address   name
 00004000  fram_ipe_start            
 00004000  fram_rw_start             
 00004000  fram_rx_start             
-0000401e  Port_5                    
-0000402a  Port_6                    
-00004034  __TI_ISR_TRAP             
-0000403c  __TI_Handler_Table_Base   
-00004044  __TI_Handler_Table_Limit  
-0000404c  __TI_CINIT_Base           
-00004054  __TI_CINIT_Limit          
+0000401e  Port_6                    
+00004028  __TI_ISR_TRAP             
+00004030  __TI_Handler_Table_Base   
+00004038  __TI_Handler_Table_Limit  
+0000403e  __TI_CINIT_Base           
+00004046  __TI_CINIT_Limit          
 0000a501  mpu_ctl0_value            
 0000ffb4  __TI_int18                
 0000ffb6  __TI_int19                
@@ -3560,36 +3547,35 @@ address   name
 0000fffa  __TI_int53                
 0000fffc  __TI_int54                
 0000fffe  _reset_vector             
-00010000  main                      
-00010096  _auto_init_hold_wdt       
-00010118  initiator_sendPacket      
-00010196  trf7970_init              
-00010212  __TI_decompress_lzss      
-0001028a  mcu_init                  
-00010302  copy_in                   
-00010368  delay_us                  
-000103c2  SPI_readContinuous        
-000103f0  xt1_init                  
-0001041e  SPI_writeContinuous       
-0001044a  __mpu_init                
-00010476  __mspabi_divi             
-00010476  __mspabi_remi             
-000104a2  SPI_readSingle            
-000104c8  reset_after_command       
-000104ec  uscib1_init               
-0001050c  SPI_writeSingle           
-00010528  __mspabi_mpyi_f5hw        
-00010540  SPI_directCommand         
-00010556  __mspabi_divu             
-00010556  __mspabi_remu             
-0001056c  memcpy                    
-00010580  SPI_ReceiveByte           
-00010592  __TI_decompress_none      
-000105a4  SPI_SendByte              
-000105b2  C$$EXIT                   
-000105b2  abort                     
-000105b8  _system_pre_init          
-000105bc  _system_post_cinit        
+00010000  _auto_init_hold_wdt       
+00010082  initiator_sendPacket      
+000100fe  __TI_decompress_lzss      
+00010176  copy_in                   
+000101dc  delay_us                  
+0001023a  trf7970_init              
+00010292  mcu_init                  
+000102e6  main                      
+00010322  xt1_init                  
+00010350  SPI_writeContinuous       
+0001037c  __mpu_init                
+000103a8  __mspabi_divi             
+000103a8  __mspabi_remi             
+000103d4  SPI_readSingle            
+000103f8  reset_after_command       
+0001041a  uscib1_init               
+0001043a  SPI_writeSingle           
+00010456  SPI_directCommand         
+00010470  __mspabi_mpyi_f5hw        
+00010488  __mspabi_divu             
+00010488  __mspabi_remu             
+0001049e  memcpy                    
+000104b2  SPI_ReceiveByte           
+000104c4  __TI_decompress_none      
+000104d6  SPI_SendByte              
+000104e4  C$$EXIT                   
+000104e4  abort                     
+000104ea  _system_pre_init          
+000104ee  _system_post_cinit        
 ffffffff  __TI_pprof_out_hndl       
 ffffffff  __TI_prof_data_size       
 ffffffff  __TI_prof_data_start      
@@ -3599,4 +3585,4 @@ UNDEFED   __TI_BINIT_Limit
 UNDEFED   __TI_INITARRAY_Base       
 UNDEFED   __TI_INITARRAY_Limit      
 
-[1601 symbols]
+[1595 symbols]

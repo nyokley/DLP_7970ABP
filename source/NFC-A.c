@@ -76,8 +76,7 @@ void initiator_sendPacket(uint8_t bytes[], int len) {
     //reset fifo
     SPI_directCommand(0x0F);
 
-    //transmission with (0x11) or without (0x10) CRC
-    SPI_directCommand(0x11);
+
 
     //TX length bytes - assuming all complete
     len_byte2 = ((uint8_t)len) << 4;
@@ -90,6 +89,11 @@ void initiator_sendPacket(uint8_t bytes[], int len) {
     //write command to fifo
     SPI_writeContinuous(bytes, 0x1F, len);
     SPI_readSingle(&temp, 0x00);
+
+   // delay_us(5000);
+
+    //transmission with (0x11) or without (0x10) CRC
+    SPI_directCommand(0x11);
 
     //reset after transmission
     reset_after_command();

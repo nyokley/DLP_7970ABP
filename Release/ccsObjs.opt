@@ -1,0 +1,1 @@
+"./source/NFC-A.obj" "./source/main.obj" "./source/mcu.obj" "./source/spi.obj" "./source/timer.obj" "./source/trf7970.obj" "../lnk_msp430fr5994.cmd" -llibmpu_init.a -llibmath.a -llibc.a 

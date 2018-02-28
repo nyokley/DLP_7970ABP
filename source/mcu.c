@@ -17,6 +17,15 @@ void mcu_init() {
     P5SEL0 |= (BIT0 | BIT1 | BIT2);
     PJSEL0 |= BIT4 | BIT5;                  // For XT1
 
+    //init txBtn pin
+    txBtn_HIGH;
+    txBtn_SETDIR;
+    txBtn_REN;
+    txBtn_IE;
+    txBtn_IES_FALLING;
+    txBtn_IFG_CLR;
+
+    //init IRQ pin
     IRQ_LOW;
     IRQ_SETDIR;
     IRQ_RDIS;
@@ -58,6 +67,13 @@ void xt1_init() {
 __interrupt void Port_6(void) {
     P6IFG &= ~BIT3;
     IRQ_SHOULD_READ = 1;
+
+}
+
+#pragma vector = PORT5_VECTOR
+__interrupt void Port_5(void) {
+    P5IFG &= ~BIT5;
+    READ_VALUE = 1;
 
 }
 
